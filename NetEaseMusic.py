@@ -1,12 +1,14 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 # @author: AnarL. (anar930906@gmail.com)
-# @environment: Python3 with requests
+# @Modified by robonxt (on github)
+# @environment: Python3 with requests + unicodedata
 # @description: 使用本程序可以轻松下载网易云音乐的歌曲，只需要有歌曲的网页即可，单独付费歌曲无法下载。
 #                本程序仅供学习交流使用，严禁用于任何商业用途，产生任何法律纠纷与作者无关。
 #                 请尊重版权，树立版权意识。
 # @README: 添加封面需要使用lame库，如果电脑中没有，请使用brew install lame或其他方式安装。暂时不支持在windows上运行
-# @lisence: MIT
+# @license: MIT
+
 
 
 # Pyinstaller error
@@ -21,14 +23,18 @@ import sys
 import time
 import getopt
 import locale
+import unicodedata # New!
 from config import http_error
 from config import music_genre
 
 from Crypto.Cipher import AES
 import base64
 
-__DATE__ = '2018-09-06'
-__VERSION__ = 'V 0.6.2'
+__DATE__ = '2020-06-26'
+__VERSION__ = '1.1'
+
+__AUTHOR__ = 'AnarL. (anar930906@gmail.com)'
+__AUTHOR_MODDER__ = 'robonxt (on github)'
 
 URL_TYPE_KEY = "url_type"
 URL_TYPE_SINGLE = "single"
@@ -39,7 +45,7 @@ ADD_TO_ITUNES_KEY = "add_to_itunes"
 FOLDER_PATH_KEY = "folder_path"
 URL_KEY = "url"
 
-
+# Localization. Needs updating for both English and Chinese
 def _(s):
     chineseStrings = {
         'Matching ID...': '匹配ID中...',
@@ -88,7 +94,6 @@ def get_params(text):
     second_key = 'FFFFFFFFFFFFFFFF'.encode('utf8')
     h_encText = AES_encrypt(text, first_key)
     h_encText = AES_encrypt(h_encText, second_key)
-
     return h_encText
 
 
@@ -244,7 +249,7 @@ def get_playlist_songs(type_id, folder='', range=''):
     total = len(tracks)
     if len(range) == 0:
         for track in tracks:
-            print(_('Downloading({}/{})').format(idx, total))
+            print(_('! Downloading songs from playlist ({}/{}) !').format(idx, total))
             url = 'http://music.163.com/#/song?id={}'.format(track)
             download_music(url, folder=folder)
             time.sleep(1)
@@ -252,7 +257,7 @@ def get_playlist_songs(type_id, folder='', range=''):
     else:
         for index in string_to_list(range):
             track = tracks[index - 1]
-            print(_('Downloading({}/{})').format(index, len(tracks)))
+            print(_('! Downloading songs from range ({}/{}) !').format(index, len(tracks)))
             url = 'http://music.163.com/#/song?id={}'.format(track)
             download_music(url, folder=folder)
             time.sleep(1)
@@ -271,7 +276,7 @@ def get_album_songs(type_id, folder=''):
     total = len(tracks)
 
     for track in tracks:
-        print(_('Downloading【{}】({}/{})'.format(album_name, idx, total)))
+        print(_('! Downloading songs from album 【{}】 ({}/{}) !'.format(album_name, idx, total)))
         url = 'http://music.163.com/#/song?id={}'.format(track)
         download_music(url, folder)
         time.sleep(1)
@@ -321,29 +326,53 @@ def download_music(url, folder=''):
     music_obj = get_song_name_album_poster(type_id)
     if not music_obj.title:
         return
-
+    #
+    #
+    # Testing!
+    global music_file_safe
+    music_file_safe = slugify(music_obj.title, True)
+    #
+    #
+    #
     print(_('Downloading music:'))
     url = get_music_url_with_official_api(type_id, music_obj.br)
     if url is None:
         url = get_music_url_with_3rd_party_api(type_id, music_obj.br)
-
-    audio = download_file(url, folder=folder, export_file_name=music_obj.title)
+    # Original:
+    #audio = download_file(url, folder=folder, export_file_name=music_obj.title)
+    #
+    #print(_('audio = ...'))
+    audio = download_file(url, folder=folder, export_file_name=music_file_safe)
+    #print(_('OK'))
     if not audio:
         audio = try_get_file_in_qq_music(music_obj.title, music_obj.artists)
 
     if not audio:
         return
     print(_('Downloading Coverart:'))
-    poster = download_file(music_obj.poster, folder=folder, export_file_name=music_obj.title)
+    #
+    #
+    #
+    # poster = download_file(music_obj.poster, folder=folder, export_file_name=music_obj.title)
+    poster = download_file(music_obj.poster, folder=folder, export_file_name=music_file_safe)
+    #
+    #
+    #
     print(_('Adding Coverart:'))
     audio_name = ''
     if hasattr(audio, 'name'):
         audio_name = audio.name
     else:
         audio_name = audio
+    #
+    #
+    # Testing!
+    # Original:
+    #print(_('Before add_poster'))
     add_poster(poster.name, music_obj.title, music_obj.artists,
-               music_obj.album, music_obj.year, music_obj.track,
-               audio_name, music_obj.br)
+                music_obj.album, music_obj.year, music_obj.track,
+                audio_name, music_obj.br)
+    #print(_('OK'))
 
 
 QQ_music_search_tip_api = ('https://c.y.qq.com/soso/fcgi-bin'
@@ -440,9 +469,7 @@ def try_get_file_in_qq_music(song_name, singer):
         print(e)
 
 
-def download_file(file_url, folder='',
-                  export_file_name=None, extension=None):
-
+def download_file(file_url, folder='', export_file_name=None, extension=None):
     if not file_url or len(file_url) == 0:
         print(_('Invalid download link.'))
         return None
@@ -477,6 +504,22 @@ def download_file(file_url, folder='',
                 progress.refresh(count=len(data))
 
     return file
+
+def slugify(value, allow_unicode=False):
+    print(_('Reformatting the file name to os-safe name. The actual audio tags are not changed.'))
+    """
+    Taken from django (thanks guys!). Modified by robonxt. Supports UTF8.
+    Removes spaces (turns into hyphens), dangerous file system characters (like /, \, etc) into underscores
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    #value = re.sub(r'[^\w\s-]', '', value).strip().lower()
+    value = re.sub(r'[^\w\s-]', '_', value)
+
+    return re.sub(r'[-\s]+', '-', value)
 
 
 def install_lame():
@@ -723,11 +766,12 @@ def print_welcome():
     print('\t3. You can download a full playlists or just some songs from a playlist.')
     print('\t4. In order to get song with coverart and song info, remember to install lame.')
     print('\t   (you can download it on Homebrew or google it)', end='')
-    print('\t resolution for MVs by default (TODO: Add MV resolution selection)')
+    print('\t   resolution for MVs by default (TODO: Add MV resolution selection)')
     print('\t5. You can also download MVs and download the highest')
-    print('\t6. Version:{}'.format(__VERSION__))
+    print('\t6. Version: {}'.format(__VERSION__))
     print('\t7. Compilation date: {}'.format(__DATE__))
-    print('\t8. Author: AnarL.(anar930906@gmail.com)')
+    print('\t8. Author: {}'.format(__AUTHOR__))
+    print('\t8. Fixed/Modded: {}'.format(__AUTHOR_MODDER__))
     print('\t9. Translation: ignaciocastro')
     print('\tNOTE: PLEASE APPLY TO YOUR CORRESPONDING COPYRIGHT LAWS IN YOUR COUNTRY.')
 

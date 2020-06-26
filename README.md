@@ -11,10 +11,10 @@ A: A working downloader to get stuff from NetEase (music.163.com). Edited this f
 Q: How do I use it?
 
 A: 
-1. Make sure you have Python 3 installed (later versions are ok.) 
-2. Install Lame (from the exe provided), make sure you install it in C:\Windows\System32 (MUST HAVE ADMIN ACCESS). 
-3. Follow the original usage instructions below, but basically run: "python3.8.exe ./NetEaseMusic.py URL_TO_SONG" (Windows 10, Python 3.8 installed from Windows Store, cd to .\Downloads\NetEaseMusicDownloader-master\) 
-4. Profit
+1. Clone (download) this repo and extract to somewhere.
+2. Make sure you have Python 3+ with requests installed (run "pip install requests" AFTER you install Python 3)
+3. Install Lame (from the exe provided), make sure you install it in C:\Windows\System32 (WARNING: MUST HAVE ADMIN ACCESS). 
+4. Follow the original usage instructions below, but basically run: "python3.8.exe ./NetEaseMusic.py URL_TO_SONG" (example setup: Windows 10, Python 3.8 installed from Windows Store, cd to .\Downloads\NetEaseMusicDownloader-master\) 
          
 
 Q: I got a problem!

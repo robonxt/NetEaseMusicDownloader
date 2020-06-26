@@ -31,10 +31,12 @@ from Crypto.Cipher import AES
 import base64
 
 __DATE__ = '2020-06-26'
-__VERSION__ = '1.1'
+__VERSION__ = 'v1.1'
 
 __AUTHOR__ = 'AnarL. (anar930906@gmail.com)'
 __AUTHOR_MODDER__ = 'robonxt (on github)'
+
+__TRANSLATIONS__ = 'ignaciocastro, robonxt'
 
 URL_TYPE_KEY = "url_type"
 URL_TYPE_SINGLE = "single"
@@ -760,19 +762,19 @@ def print_exception_solution(e):
 
 def print_welcome():
     print('Welcome to Netease CloudMusic Downloader')
-    print('\t1. This tool can download most of Netease Cloud Music songs,', end='')
+    print('\t1. This tool can download most of Netease Cloud Music songs,')
     print('\t   except for separate payment songs (such as Taylor Swift)')
     print('\t2. You can download both songs and full playlists. Just paste the url correctly.')
     print('\t3. You can download a full playlists or just some songs from a playlist.')
     print('\t4. In order to get song with coverart and song info, remember to install lame.')
-    print('\t   (you can download it on Homebrew or google it)', end='')
+    print('\t   (you can download it on Homebrew or google it)')
     print('\t   resolution for MVs by default (TODO: Add MV resolution selection)')
     print('\t5. You can also download MVs and download the highest')
     print('\t6. Version: {}'.format(__VERSION__))
     print('\t7. Compilation date: {}'.format(__DATE__))
     print('\t8. Author: {}'.format(__AUTHOR__))
     print('\t8. Fixed/Modded: {}'.format(__AUTHOR_MODDER__))
-    print('\t9. Translation: ignaciocastro')
+    print('\t9. Translations: '.format(__TRANSLATIONS__))
     print('\tNOTE: PLEASE APPLY TO YOUR CORRESPONDING COPYRIGHT LAWS IN YOUR COUNTRY.')
 
 

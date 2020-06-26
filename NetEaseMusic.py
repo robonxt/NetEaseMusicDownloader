@@ -84,8 +84,8 @@ def get_genre_code(genre):
 
 
 def get_params(text):
-    first_key = '0CoJUm6Qyw8W8jud'
-    second_key = 'FFFFFFFFFFFFFFFF'
+    first_key = '0CoJUm6Qyw8W8jud'.encode('utf8')
+    second_key = 'FFFFFFFFFFFFFFFF'.encode('utf8')
     h_encText = AES_encrypt(text, first_key)
     h_encText = AES_encrypt(h_encText, second_key)
 
@@ -105,13 +105,13 @@ def get_encSecKey():
 
 
 def AES_encrypt(text, key):
-    iv = '0102030405060708'
+    iv = '0102030405060708'.encode('utf8')
     pad = 16 - len(text) % 16
-    text = text + pad * chr(pad)
-    encryptor = AES.new(key, AES.MODE_CBC, iv)
+    text = (text + pad * chr(pad)).encode('utf8')
+    encryptor = AES.new(key, AES.MODE_CBC, iv=iv)
     encrypt_text = encryptor.encrypt(text)
     encrypt_text = base64.b64encode(encrypt_text)
-    encrypt_text = str(encrypt_text, encoding='utf-8')
+    encrypt_text = str(encrypt_text, encoding='utf8')
     return encrypt_text
 
 
@@ -204,7 +204,7 @@ def get_music_url_with_official_api(type_id, br):
     # This section is for test official encryption.
     print(_('Downloading song from official API...'))
     first_param = '{ids:"[%s]", br:"%s", csrf_token:""}' % (type_id, br)
-    data = {'params': get_params(first_param).encode('utf-8'), 'encSecKey': get_encSecKey()}
+    data = {'params': get_params(first_param).encode('utf8'), 'encSecKey': get_encSecKey()}
     ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0'
     he = {"Referer": "http://music.163.com",
           'Host': 'music.163.com', 'User-Agent': ua,
@@ -354,10 +354,10 @@ QQ_music_search_tip_api = ('https://c.y.qq.com/soso/fcgi-bin'
                            '&flag_qc=0&p={page}&n=20&w={song_name}'
                            '&g_tk=5381&loginUin=0&hostUin=0'
                            '&format=json&inCharset=utf8'
-                           '&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0')
+                           '&outCharset=utf8&notice=0&platform=yqq&needNewCode=0')
 QQ_music_song_info_api = ('https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
                           '?g_tk=63395543&hostUin=0&format=json&inCharset=utf8'
-                          '&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0'
+                          '&outCharset=utf8&notice=0&platform=yqq&needNewCode=0'
                           '&cid=205361747&songmid={song_id}'
                           '&filename=C400{song_id}.m4a&guid=9362313912')
 QQ_music_song_dl_api = ('http://dl.stream.qqmusic.qq.com'
@@ -493,7 +493,7 @@ def add_poster(poster, title, artists, album, year, track, music, br):
                   '--tl', album, '--ty', str(year), '--tc', str(track),
                   '--tg', '13', '--ti', poster, '-b', str(br), music]
         out_bytes = subprocess.check_output(params)
-        print(out_bytes.decode('utf-8'))
+        print(out_bytes.decode('utf8'))
         if remove_file(poster):
             print(_('The coverart was applied successfully.'))
         if remove_file(music):

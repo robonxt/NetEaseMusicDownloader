@@ -1,8 +1,35 @@
+# USE AT YOUR OWN RISK. NOT RESPONSIBLE FOR ANYTHING THAT THIS PROGRAM DOES. PERSONAL USE ONLY. NO COMMERCIAL USE. 
+
+This is a fork of @Kito0615's NetEaseMusicDownloader with some fixes and mods.
+
+### Q&A
+
+Q: What is this?
+
+A: A working downloader to get stuff from NetEase (music.163.com). Edited this from https://github.com/Kito0615/NetEaseMusicDownloader to learn about AES and Python
+
+Q: How do I use it?
+
+A: 
+1. Make sure you have Python 3 installed (later versions are ok.) 
+2. Install Lame (from the exe provided), make sure you install it in C:\Windows\System32 (MUST HAVE ADMIN ACCESS). 
+3. Follow the original usage instructions below, but basically run: "python3.8.exe ./NetEaseMusic.py URL_TO_SONG" (Windows 10, Python 3.8 installed from Windows Store, cd to .\Downloads\NetEaseMusicDownloader-master\) 
+4. Profit
+         
+
+Q: I got a problem!
+
+A: Sorry, I'm not the developer of this downloader, ask @Kito0615
+
+
+All credits to the original devs, I only fixed some errors and stabilized some stuff.
+
+
+# // ORGINAL README STARTS HERE //
+
 # NetEaseMusicDownloader
 
 [中文说明](https://github.com/Kito0615/NetEaseMusicDownloader/blob/master/README_CN.md) 
-
-![](https://img.shields.io/badge/Platform-Python3-009eff.svg) ![](https://img.shields.io/badge/Windows-Supported-00efff.svg)  ![](https://img.shields.io/badge/MacOS-Supported-00efff.svg) ![](https://img.shields.io/badge/Linux-Supported-00efff.svg) ![](https://img.shields.io/badge/WebAPI-Available-00efff.svg)
 
 > **NOTE:** In this script, I used some api via [AD's API](https://api.imjad.cn/). Thanks. This 
 > script is for personal use only. It cannot be used for any commercial 

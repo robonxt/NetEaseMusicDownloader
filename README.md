@@ -6,7 +6,7 @@ This is a fork of @Kito0615's NetEaseMusicDownloader with some fixes and mods.
 
 Q: What is this?
 
-A: A working downloader to get stuff from NetEase (music.163.com). Edited this from https://github.com/Kito0615/NetEaseMusicDownloader to learn about AES and Python
+A: A working downloader to get stuff from NetEase (music.163.com). Edited from https://github.com/Kito0615/NetEaseMusicDownloader. THIS IS A SELF STUDY PROJECT, NO WARRANTY OR ANY SUPPORT WILL BE GIVEN.
 
 Q: How do I use it?
 

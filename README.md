@@ -19,7 +19,7 @@ A:
 
 Q: I got a problem!
 
-A: Sorry, I'm not the developer of this downloader, ask @Kito0615
+A: Sorry, no support will be given. 
 
 
 All credits to the original devs, I only fixed some errors and stabilized some stuff.

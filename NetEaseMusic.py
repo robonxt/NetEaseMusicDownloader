@@ -36,7 +36,7 @@ __VERSION__ = 'v1.1'
 __AUTHOR__ = 'AnarL. (anar930906@gmail.com)'
 __AUTHOR_MODDER__ = 'robonxt (on github)'
 
-__TRANSLATIONS__ = 'ignaciocastro, robonxt'
+__TRANSLATION__ = 'ignaciocastro, robonxt'
 
 URL_TYPE_KEY = "url_type"
 URL_TYPE_SINGLE = "single"
@@ -774,7 +774,7 @@ def print_welcome():
     print('\t7. Compilation date: {}'.format(__DATE__))
     print('\t8. Author: {}'.format(__AUTHOR__))
     print('\t8. Fixed/Modded: {}'.format(__AUTHOR_MODDER__))
-    print('\t9. Translations: '.format(__TRANSLATIONS__))
+    print('\t9. Translations: {}'.format(__TRANSLATION__))
     print('\tNOTE: PLEASE APPLY TO YOUR CORRESPONDING COPYRIGHT LAWS IN YOUR COUNTRY.')
 
 
